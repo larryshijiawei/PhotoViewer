@@ -2,6 +2,7 @@ package com.example.jiaweishi.photoviewer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.*;
@@ -18,7 +19,7 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
     private static final String URL_TWEETS = "https://api.instagram.com/v1/media/popular?client_id=e05c462ebd86446ea48a5af73769b602";
 
-    private List<Photo> photoList;
+    private ArrayList<Photo> photoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 displayMessage("Status Code is " + statusCode);
+
                 parsePhotos(response);
 
-                displayMessage(photoList.size()+"");
+                displayPhotos();
             }
 
 
@@ -61,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void displayPhotos(){
+        PhotoAdapter photoAdapter = new PhotoAdapter(this, photoList);
+        ListView listView = (ListView) findViewById(R.id.lv_photos);
+        listView.setAdapter(photoAdapter);
     }
 
     private void displayMessage(String message){
