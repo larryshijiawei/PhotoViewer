@@ -1,5 +1,6 @@
 package com.example.jiaweishi.photoviewer;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -20,13 +21,29 @@ public class MainActivity extends AppCompatActivity {
     private static final String URL_TWEETS = "https://api.instagram.com/v1/media/popular?client_id=e05c462ebd86446ea48a5af73769b602";
 
     private ArrayList<Photo> photoList;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchPhotos();
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         fetchPhotos();
+
     }
 
     //Execute a Http call to fetch the tweets
@@ -40,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 parsePhotos(response);
 
                 displayPhotos();
+
+                swipeContainer.setRefreshing(false);
             }
 
 
@@ -65,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayPhotos(){
+
         PhotoAdapter photoAdapter = new PhotoAdapter(this, photoList);
         ListView listView = (ListView) findViewById(R.id.lv_photos);
         listView.setAdapter(photoAdapter);
