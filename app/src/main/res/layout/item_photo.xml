@@ -16,11 +16,12 @@
         android:layout_width="200dp"
         android:layout_height="25dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="User Name"
         android:id="@+id/tv_userName"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:layout_toRightOf="@+id/iv_userIcon"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorFont"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,13 +29,13 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="2 hours ago"
         android:id="@+id/tv_timeStamp"
-        android:layout_alignTop="@+id/tv_userName"
-        android:layout_alignRight="@+id/iv_photo"
-        android:layout_alignEnd="@+id/iv_photo" />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp" />
 
     <ImageView
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/iv_photo"
         android:adjustViewBounds="true"
         android:src="@android:mipmap/sym_def_app_icon"
@@ -60,7 +61,8 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/iv_likeIcon"
         android:layout_marginLeft="5dp"
-        android:text="100 likes" />
+        android:text="100 likes"
+        android:textColor="@color/colorFont"/>
 
     <TextView
         android:layout_width="400dp"

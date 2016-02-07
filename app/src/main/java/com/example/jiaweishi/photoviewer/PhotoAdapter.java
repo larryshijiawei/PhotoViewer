@@ -1,6 +1,7 @@
 package com.example.jiaweishi.photoviewer;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,16 @@ import java.util.ArrayList;
  */
 public class PhotoAdapter extends ArrayAdapter<Photo> {
 
+    private static class ViewHolder{
+        TextView userName;
+        TextView caption;
+        TextView timestamp;
+        TextView likeCount;
+        ImageView userIcon;
+        ImageView photo;
+    }
+
+
     public PhotoAdapter(Context context, ArrayList<Photo> photos){
         super(context, 0, photos);
     }
@@ -25,27 +36,47 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
     public View getView(int position, View convertView, ViewGroup parent){
         Photo photo = getItem(position);
 
+        ViewHolder viewHolder;
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.userName = (TextView) convertView.findViewById(R.id.tv_userName);
+            viewHolder.caption = (TextView) convertView.findViewById(R.id.tv_caption);
+            viewHolder.timestamp = (TextView) convertView.findViewById(R.id.tv_timeStamp);
+            viewHolder.likeCount = (TextView) convertView.findViewById(R.id.tv_likeCount);
+            viewHolder.userIcon = (ImageView) convertView.findViewById(R.id.iv_userIcon);
+            viewHolder.photo = (ImageView) convertView.findViewById(R.id.iv_photo);
+
+            convertView.setTag(viewHolder);
         }
+        else
+            viewHolder = (ViewHolder) convertView.getTag();
 
-        TextView tv_userName = (TextView) convertView.findViewById(R.id.tv_userName);
-        tv_userName.setText(photo.getUserName());
+        Typeface fontLarge = Typeface.createFromAsset(getContext().getAssets(), "font.otf");
+        Typeface fontSmall = Typeface.createFromAsset(getContext().getAssets(), "font2.otf");
 
-        TextView tv_caption = (TextView) convertView.findViewById(R.id.tv_caption);
-        tv_caption.setText(photo.getCaption());
+        viewHolder.userName.setText(photo.getUserName());
+        viewHolder.userName.setTypeface(fontLarge);
 
-        TextView tv_timeStamp = (TextView) convertView.findViewById(R.id.tv_timeStamp);
-        tv_timeStamp.setText(photo.getRelativeTimeStamp());
+        viewHolder.caption.setText(photo.getCaption());
 
-        TextView tv_likeCount = (TextView) convertView.findViewById(R.id.tv_likeCount);
-        tv_likeCount.setText(photo.getLikeCount() + " likes");
+        viewHolder.timestamp.setText(photo.getRelativeTimeStamp());
+        viewHolder.timestamp.setTypeface(fontSmall);
 
-        ImageView iv_userIcon = (ImageView) convertView.findViewById(R.id.iv_userIcon);
-        Picasso.with(getContext()).load(photo.getUserProfileImageUrl()).into(iv_userIcon);
+        viewHolder.likeCount.setText(photo.getLikeCount() + " likes");
+        viewHolder.likeCount.setTypeface(fontLarge);
 
-        ImageView iv_photo = (ImageView) convertView.findViewById(R.id.iv_photo);
-        Picasso.with(getContext()).load(photo.getPhotoUrl()).into(iv_photo);
+        Picasso.with(getContext())
+                .load(photo.getUserProfileImageUrl())
+                .transform(new CircleTransform())
+                .into(viewHolder.userIcon);
+
+        Picasso.with(getContext())
+                .load(photo.getPhotoUrl())
+                .resize(320,0)
+                .into(viewHolder.photo);
 
         return convertView;
     }
