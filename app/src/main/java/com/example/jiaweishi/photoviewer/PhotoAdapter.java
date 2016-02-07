@@ -23,8 +23,11 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
         TextView caption;
         TextView timestamp;
         TextView likeCount;
+        TextView lastCommentor;
+        TextView lastComment;
         ImageView userIcon;
         ImageView photo;
+
     }
 
 
@@ -48,6 +51,8 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
             viewHolder.likeCount = (TextView) convertView.findViewById(R.id.tv_likeCount);
             viewHolder.userIcon = (ImageView) convertView.findViewById(R.id.iv_userIcon);
             viewHolder.photo = (ImageView) convertView.findViewById(R.id.iv_photo);
+            viewHolder.lastCommentor = (TextView) convertView.findViewById(R.id.tv_commenterID);
+            viewHolder.lastComment = (TextView) convertView.findViewById(R.id.tv_comment);
 
             convertView.setTag(viewHolder);
         }
@@ -67,6 +72,12 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
 
         viewHolder.likeCount.setText(photo.getLikeCount() + " likes");
         viewHolder.likeCount.setTypeface(fontLarge);
+
+        viewHolder.lastCommentor.setText(photo.getLastCommenter());
+        viewHolder.lastCommentor.setTypeface(fontLarge);
+
+        viewHolder.lastComment.setText(photo.getLastComment());
+        viewHolder.lastComment.setTypeface(fontLarge);
 
         Picasso.with(getContext())
                 .load(photo.getUserProfileImageUrl())

@@ -71,7 +71,28 @@
         android:id="@+id/tv_caption"
         android:layout_below="@+id/tv_likeCount"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:id="@+id/tv_commenterID"
+        android:layout_below="@+id/tv_caption"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:text="commenter"
+        android:textColor="@color/colorFont"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_comment"
+        android:layout_below="@+id/tv_caption"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/tv_commenterID"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="Looks good! Looks good! Looks good! Looks good! Looks good! Looks good!"
+        />
 
 </RelativeLayout>

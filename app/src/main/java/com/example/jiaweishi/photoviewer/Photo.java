@@ -2,6 +2,7 @@ package com.example.jiaweishi.photoviewer;
 
 import android.text.format.DateUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +16,8 @@ public class Photo {
     private String userProfileImageUrl;
     private int likeCount;
     private long timeStamp;
+    private String lastCommenter;
+    private String lastComment;
 
 
     public Photo(JSONObject jsonObject){
@@ -45,6 +48,14 @@ public class Photo {
         return userProfileImageUrl;
     }
 
+    public String getLastCommenter() {
+        return lastCommenter;
+    }
+
+    public String getLastComment() {
+        return lastComment;
+    }
+
     private void initFromJSON(JSONObject jsonObject){
         try {
             photoUrl = jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
@@ -62,6 +73,10 @@ public class Photo {
 
             likeCount = jsonObject.getJSONObject("likes").getInt("count");
 
+            JSONArray comments = jsonObject.getJSONObject("comments").getJSONArray("data");
+            JSONObject lastCommentObject = comments.getJSONObject(comments.length()-1);
+            lastComment = lastCommentObject.getString("text");
+            lastCommenter = lastCommentObject.getJSONObject("from").getString("username");
 
         } catch (JSONException e) {
             e.printStackTrace();
