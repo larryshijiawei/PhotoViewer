@@ -74,10 +74,12 @@ public class Photo {
             likeCount = jsonObject.getJSONObject("likes").getInt("count");
 
             JSONArray comments = jsonObject.getJSONObject("comments").getJSONArray("data");
-            JSONObject lastCommentObject = comments.getJSONObject(comments.length()-1);
-            lastComment = lastCommentObject.getString("text");
-            lastCommenter = lastCommentObject.getJSONObject("from").getString("username");
-
+            if(comments.length() >= 1){
+                JSONObject lastCommentObject = comments.getJSONObject(comments.length()-1);
+                lastComment = lastCommentObject.getString("text");
+                lastCommenter = lastCommentObject.getJSONObject("from").getString("username");
+            }
+            
         } catch (JSONException e) {
             e.printStackTrace();
         }
