@@ -35,6 +35,15 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
         TextView tv_caption = (TextView) convertView.findViewById(R.id.tv_caption);
         tv_caption.setText(photo.getCaption());
 
+        TextView tv_timeStamp = (TextView) convertView.findViewById(R.id.tv_timeStamp);
+        tv_timeStamp.setText(photo.getRelativeTimeStamp());
+
+        TextView tv_likeCount = (TextView) convertView.findViewById(R.id.tv_likeCount);
+        tv_likeCount.setText(photo.getLikeCount() + " likes");
+
+        ImageView iv_userIcon = (ImageView) convertView.findViewById(R.id.iv_userIcon);
+        Picasso.with(getContext()).load(photo.getUserProfileImageUrl()).into(iv_userIcon);
+
         ImageView iv_photo = (ImageView) convertView.findViewById(R.id.iv_photo);
         Picasso.with(getContext()).load(photo.getPhotoUrl()).into(iv_photo);
 

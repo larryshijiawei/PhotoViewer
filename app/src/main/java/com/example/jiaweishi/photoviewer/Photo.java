@@ -1,9 +1,9 @@
 package com.example.jiaweishi.photoviewer;
 
+import android.text.format.DateUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Date;
 
 /**
  * Created by jiaweishi on 2/5/16.
@@ -12,42 +12,60 @@ public class Photo {
     private String photoUrl;
     private String caption;
     private String userName;
+    private String userProfileImageUrl;
     private int likeCount;
-    private Date createOn;
+    private long timeStamp;
+
 
     public Photo(JSONObject jsonObject){
-        try {
-            photoUrl = jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-            if(jsonObject.has("caption"))
-                caption = jsonObject.getJSONObject("caption").getString("text");
-            userName = jsonObject.getJSONObject("user").getString("username");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+       initFromJSON(jsonObject);
     }
 
     public String getPhotoUrl() {
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
     public String getCaption() {
         return caption;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public String getRelativeTimeStamp(){
+        return DateUtils.getRelativeTimeSpanString(this.timeStamp*1000).toString();
+    }
+
+    public String getUserProfileImageUrl() {
+        return userProfileImageUrl;
+    }
+
+    private void initFromJSON(JSONObject jsonObject){
+        try {
+            photoUrl = jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+
+            if(jsonObject.optJSONObject("caption") != null) {
+                caption = jsonObject.getJSONObject("caption").getString("text");
+                timeStamp = jsonObject.getJSONObject("caption").getLong("created_time");
+            }
+            else
+                caption = "";
+
+            userName = jsonObject.getJSONObject("user").getString("username");
+            userProfileImageUrl = jsonObject.getJSONObject("user").getString("profile_picture");
+
+
+            likeCount = jsonObject.getJSONObject("likes").getInt("count");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
