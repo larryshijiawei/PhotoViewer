@@ -4,6 +4,8 @@ PhotoViewer is an android app that allows a user to check out popular photos fro
 
 Time spent: 8 hours spent in total
 
+Author: Jiawei Shi
+
 ## User Stories
 
 The following **required** functionality is completed:
